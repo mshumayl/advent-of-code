@@ -8,9 +8,9 @@ class Solution(StrSplitSolution):
     _day = 3
 
 
-    # @answer(8053)
+    @answer(8053)
     def part_1(self) -> int:
- 
+        
         shared = []
 
         priority = "abcdefghijklmnopqrstuvwxyz"
