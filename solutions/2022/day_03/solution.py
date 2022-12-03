@@ -8,7 +8,7 @@ class Solution(StrSplitSolution):
     _day = 3
 
 
-    # @answer(1234)
+    # @answer(8053)
     def part_1(self) -> int:
  
         shared = []
@@ -24,8 +24,6 @@ class Solution(StrSplitSolution):
             val+=1
             
         prio_dict = dict(zip([key for key in priority], val_lst))
-        
-        print(prio_dict)
             
         for idx, i in enumerate(self.input):
             lst = [char for char in i]
@@ -35,11 +33,8 @@ class Solution(StrSplitSolution):
             comp_1 = lst[:half]
             comp_2 = lst[half:]
 
-            print(f"Rucksack {idx} half => {half}\n{comp_1=}\n{comp_2=}")
-            
             for item in comp_1:
                 if item in comp_2:
-                    print(f"Shared: {item}")
                     shared.append(item)
                     break
                 
@@ -48,13 +43,45 @@ class Solution(StrSplitSolution):
         for shared_item in shared:
             prio_item_val.append(prio_dict[shared_item])
         
-        print(sum(prio_item_val))
+        return sum(prio_item_val)
         
-        pass
-
-    # @answer(1234)
+    @answer(2425)
     def part_2(self) -> int:
-        pass
+        shared = []
+
+        priority = "abcdefghijklmnopqrstuvwxyz"
+        priority = priority + priority.upper()
+
+        val = 1
+        val_lst = []
+
+        for i in priority:
+            val_lst.append(val)
+            val+=1
+            
+        prio_dict = dict(zip([key for key in priority], val_lst))
+            
+        group = []
+
+        for i in range(0, len(self.input), 3):
+            group.append(self.input[i: i+3])
+
+        for i in group:
+            elf_1 = i[0]
+            elf_2 = i[1]
+            elf_3 = i[2]
+             
+            for item in elf_1:
+                if item in elf_2 and item in elf_3:
+                    shared.append(item)
+                    break
+            
+            prio_item_val = []
+            
+            for shared_item in shared:
+                prio_item_val.append(prio_dict[shared_item])
+            
+        return sum(prio_item_val)
 
     # @answer((1234, 4567))
     # def solve(self) -> Tuple[int, int]:
