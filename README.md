@@ -1,6 +1,6 @@
 # Advent of Code
 
-This is my tried-and-true Python helper package for the phenomenal [Advent of Code](https://adventofcode.com/) puzzles. It contains helpful utilities, plus my [daily solution write-ups](https://github.com/xavdid/advent-of-code/tree/main/solutions).
+This is a tried-and-true Python helper package from @xavdid for the phenomenal [Advent of Code](https://adventofcode.com/) puzzles.
 
 ## Quickstart
 
