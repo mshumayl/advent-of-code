@@ -1,6 +1,6 @@
 # Day 4 (2022)
 
-`TITLE` ([prompt](https://adventofcode.com/2022/day/4))
+`Day 4: Camp Cleanup` ([prompt](https://adventofcode.com/2022/day/4))
 
 ## Part 1
 In simple words, the requirements for this part is as such:
