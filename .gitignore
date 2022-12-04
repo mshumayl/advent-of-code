@@ -106,4 +106,7 @@ venv.bak/
 # vscode
 .vscode
 
+# profile
+profile.txt
+
 # End of https://www.gitignore.io/api/python
