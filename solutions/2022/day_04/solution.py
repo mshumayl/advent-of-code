@@ -7,7 +7,7 @@ class Solution(StrSplitSolution):
     _year = 2022
     _day = 4
 
-    # @answer(1234)
+    @answer(456)
     def part_1(self) -> int:
         
         reorg_ct = 0
@@ -41,9 +41,25 @@ class Solution(StrSplitSolution):
         
         return reorg_ct        
 
-    # @answer(1234)
+    @answer(808)
     def part_2(self) -> int:
-        pass
+        
+        reorg_ct = 0
+        
+        for i in self.input:
+            
+            elf_a_range = [int(i) for i in i.split(",")[0].split("-")]
+            elf_b_range = [int(i) for i in i.split(",")[1].split("-")]
+            
+            elf_a_sections = [i for i in range(elf_a_range[0], elf_a_range[1]+1)]
+            elf_b_sections = [i for i in range(elf_b_range[0], elf_b_range[1]+1)]
+
+            for sect in elf_a_sections:
+                if sect in elf_b_sections:
+                    reorg_ct+=1
+                    break
+
+        return reorg_ct
 
     # @answer((1234, 4567))
     # def solve(self) -> Tuple[int, int]:
