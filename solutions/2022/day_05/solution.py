@@ -16,11 +16,15 @@ class Solution(TextSolution):
         with open(os.path.join(os.getcwd(), filename), 'r') as f:
             my_input = f.read()
         
-        cargo = Cargo(my_input.replace("    ", " .. "))
+        cargo = Cargo(my_input.replace("\t", " "))
         cargo.parse_crates()
         cargo.order_crates()
         cargo.create_stacks()
-        pass
+        cargo.parse_procedures()
+        cargo.display_updated_stacks()
+        answer = cargo.get_top_crates()
+        
+        print(f"\nThe final answer is {answer}")
 
     # @answer(1234)
     def part_2(self) -> int:
