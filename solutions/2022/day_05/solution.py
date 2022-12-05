@@ -16,7 +16,7 @@ class Solution(TextSolution):
         with open(os.path.join(os.getcwd(), filename), 'r') as f:
             my_input = f.read()
         
-        cargo = Cargo(my_input.replace("\t", " "))
+        cargo = Cargo(my_input.replace("    ", " -- "))
         cargo.parse_crates()
         cargo.order_crates()
         cargo.create_stacks()
