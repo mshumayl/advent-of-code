@@ -1,6 +1,6 @@
 class Stack:
 
-    def initialize_stack(self, crates: list):
+    def __init__(self, crates: list):
         self.crates = crates
 
     def reduce_stack(self):

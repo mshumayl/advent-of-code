@@ -1,6 +1,8 @@
 # prompt: https://adventofcode.com/2022/day/5
 
 from ...base import TextSolution, answer
+from .classes.cargo import Cargo
+import os
 # from typing import Tuple
 
 class Solution(TextSolution):
@@ -9,6 +11,15 @@ class Solution(TextSolution):
 
     # @answer(1234)
     def part_1(self) -> int:
+        filename = "solutions//2022//day_05//input.txt"
+        
+        with open(os.path.join(os.getcwd(), filename), 'r') as f:
+            my_input = f.read()
+        
+        cargo = Cargo(my_input.replace("    ", " .. "))
+        cargo.parse_crates()
+        cargo.order_crates()
+        cargo.create_stacks()
         pass
 
     # @answer(1234)
