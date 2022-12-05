@@ -2,7 +2,7 @@ from .stack import Stack
 
 class Cargo:
     def __init__(self, raw_input):
-        print(raw_input)
+        # print(raw_input)
 
         self.stack_list = []
 
@@ -16,11 +16,17 @@ class Cargo:
     def parse_crates(self):
         self.unordered_crates = []
         
-        for i in self.raw_crates.split("\n")[:-1]:
-            i = i.replace("[", "").replace("]", "")
-            self.unordered_crates.append(i)
+        print(self.raw_crates)
+        
+        for i in self.raw_crates.split("\n"):
+            temp = []
+            for j in i[1:-1:4]: #hardcoded 
+                temp.append(j)
+            self.unordered_crates.append(temp)
             
-        self.unordered_crates = [i.strip().split(" ") for i in self.unordered_crates]
+        # self.unordered_crates = [i.strip().split(" ") for i in self.unordered_crates]
+
+
         print(f"{self.unordered_crates=}")
     
         
@@ -32,7 +38,7 @@ class Cargo:
             r = list(r)
 
             try:
-                r = [val for val in r if (val != '--')]
+                r = [val for val in r if (val != " ")]
             except ValueError:
                 pass
 
@@ -63,9 +69,9 @@ class Cargo:
     def carry_procedure(self, ct, src, tgt):
         temp_holder = []
 
-        print(f"Moving {ct} crates from {src} to {tgt}")
+        # print(f"Moving {ct} crates from {src} to {tgt}")
 
-        print("Current stack:")
+        # print("Current stack:")
         self.stack_list[src-1].display_stack()
 
         for i in range(ct):

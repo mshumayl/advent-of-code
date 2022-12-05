@@ -10,7 +10,7 @@ class Stack:
         self.crates.extend(new_crates)
         
     def display_stack(self):
-        print(self.crates)
+        # print(self.crates)
         pass
     
     def get_top_crate(self):
