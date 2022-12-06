@@ -1,4 +1,4 @@
-from .stack import Stack
+from .stack import Stack, CrateMover9001
 
 class Cargo:
     def __init__(self, raw_input):
@@ -18,7 +18,7 @@ class Cargo:
         
         print(self.raw_crates)
         
-        for i in self.raw_crates.split("\n"):
+        for i in self.raw_crates.split("\n")[:-1]:
             temp = []
             for j in i[1:-1:4]: #hardcoded 
                 temp.append(j)
@@ -47,12 +47,15 @@ class Cargo:
         print(f"{self.ordered_crates=}")
     
     
-    def create_stacks(self):
+    def create_stacks(self, type=None):
         for i in range(self.stack_size):
             #Instantiate the stacks
-            stack = Stack(self.ordered_crates[i])
+            if type == "crate_mover_9001":
+                stack = CrateMover9001(self.ordered_crates[i])
+            else:
+                stack = Stack(self.ordered_crates[i])
             self.stack_list.append(stack)
-            
+        
     
     def parse_procedures(self):
         self.parse_procedures = []
@@ -74,8 +77,7 @@ class Cargo:
         # print("Current stack:")
         self.stack_list[src-1].display_stack()
 
-        for i in range(ct):
-            temp_holder.append(self.stack_list[src-1].decrease_stack())
+        temp_holder.append(self.stack_list[src-1].decrease_stack(ct))
         
         # print(f"{temp_holder=}")
         self.stack_list[tgt-1].increase_stack(temp_holder)
