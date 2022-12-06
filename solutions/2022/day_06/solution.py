@@ -27,7 +27,7 @@ class Solution(TextSolution):
 
         return ans
 
-    # @answer(1234)
+    @answer(3534)
     def part_2(self) -> int:
         WINDOW_SIZE = 14
 
