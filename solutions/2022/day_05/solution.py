@@ -26,9 +26,10 @@ class Solution(TextSolution):
         
         answer = cargo.get_top_crates()
                          
-        print(f"\nThe final answer is {answer}")
+        # print(f"\nThe final answer is {answer}")
+        return answer
 
-    # @answer(1234)
+    @answer("RNRGDNFQG")
     def part_2(self) -> int:
         filename = "solutions//2022//day_05//input.txt"
         
@@ -45,8 +46,8 @@ class Solution(TextSolution):
         
         answer = cargo.get_top_crates()
                          
-        print(f"\nThe final answer is {answer}")
-        pass
+        # print(f"\nThe final answer is {answer}")
+        return answer
 
     # @answer((1234, 4567))
     # def solve(self) -> Tuple[int, int]:

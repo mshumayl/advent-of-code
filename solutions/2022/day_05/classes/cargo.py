@@ -10,7 +10,7 @@ class Cargo:
         self.stack_size = int(raw_input.split("\n\n")[0].strip()[-1])
         self.raw_procedures = raw_input.split("\n\n")[1]
 
-        print(f"{self.raw_crates=}, \n{self.stack_size=} \n{self.raw_procedures=}")
+        # print(f"{self.raw_crates=}, \n{self.stack_size=} \n{self.raw_procedures=}")
 
     
     def parse_crates(self):
