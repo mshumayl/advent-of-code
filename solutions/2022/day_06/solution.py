@@ -17,7 +17,7 @@ class Solution(TextSolution):
         for idx, i in enumerate(self.input):
             seen.append(i)
 
-            if len(seen)>=4:
+            if len(seen)>=WINDOW_SIZE:
                 print(f"Window = {seen[-WINDOW_SIZE:]}")
                 seen_set = set(seen[-WINDOW_SIZE:]) 
                 print(seen_set)
@@ -36,7 +36,7 @@ class Solution(TextSolution):
         for idx, i in enumerate(self.input):
             seen.append(i)
 
-            if len(seen)>=4:
+            if len(seen)>=WINDOW_SIZE:
                 print(f"Window = {seen[-WINDOW_SIZE:]}")
                 seen_set = set(seen[-WINDOW_SIZE:]) 
                 print(seen_set)
