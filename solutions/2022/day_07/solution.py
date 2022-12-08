@@ -1,83 +1,47 @@
 # prompt: https://adventofcode.com/2022/day/7
 
-from ...base import TextSolution, answer
+from ...base import StrSplitSolution, answer
+from collections import defaultdict
 # from typing import Tuple
 
-class Solution(TextSolution):
+class Solution(StrSplitSolution):
     _year = 2022
     _day = 7
 
-
-    dir_dict = {
-        "dir asdf": {
-            "sasd.log": 23,
-            "dir opiu": {
-                "my.txt": 1
-            }
-        },
-        "dir ragkh": {
-            "s": 2451,
-            "sadg.po": 980 
-        }
-    }
-
     # @answer(1234)
     def part_1(self) -> int:
-        
-        command_block = []
-        current_dir = []
-        all_dirs = set()
-        
-        all_files = []
-        
-        map_dict = {}
-        
-        for i in self.input.split("$"):
-            command_block.append(i)
-            
-        # print(command_block)
+        location = []
+        map_dict = defaultdict(int)
 
-        for i in command_block[1:]:
-            if i.strip().startswith("cd"):
-                j = ''.join(i.strip("\n").strip())
-                if j.endswith(".."):
-                    current_dir = current_dir[:-1]
-                else:
-                    current_dir.append(j.split(" ")[-1])
-            else:
-                j = i.strip().split("\n")
-                j[0] = ''.join(current_dir)
-                all_files.append(j)
-            
-            # print(f"{j=}")
-            # print(f"{current_dir=}")
-            all_dirs.add(''.join(current_dir))
-
-        # print(f"{all_files=}")
-        print(f"{all_dirs=}")
-
-        for idx, f in enumerate(all_files):
-            for kidx, k in enumerate(f):
-                if k.startswith("dir"):
-                    all_files[idx][kidx] = str(f[0]) + "".join(k.split(" ")[-1])
-        
-        
-        for i in all_files:
-            terminal_leaf = []
-            for j in i[1:]:
-                if j.startswith("/") and isinstance(j, str):
-                    break
-                else:
-                    terminal_leaf.append(j)
-
-            map_dict[i[0]] = terminal_leaf
-            
+        for line in self.input:
+            command = line.split(" ")
+            if len(command) == 3: # lines with `cd` commands have 3 elements
+                if command[2]=="/": # if base dir
+                    location = [] 
+                elif command[2] == "..": # if go up one dir
+                    location = location[:-1]
+                else: # if command[2] is a dir name
+                    if len(location) == 0: 
+                        location.append(command[2])
+                    else:
+                        location.append(location[-1] + "/" + command[2]) # append current location
+            else: # console output and `ls` lines have 2 elements
+                size = 0
+                print(f"{size=}")
+                print(f"{command[0]=}")
+                if not command[0].startswith("dir") and not command[0].startswith("$"): # remove dirs and `ls` lines
+                    size = int(command[0])
                 
-        print("Completed")
-        print(f"{all_files=}")        
-
-        print("Dictionary")
-        print(f"{map_dict=}")        
+                if size > 0:
+                    for i in location: # iterate over all directories and sum
+                        map_dict[i] += size 
+                        print(f"Added {size=} to dir {i} (total={map_dict[i]})")
+                        print(map_dict.items())
+            print(f"{location=}")
+            
+        print(f"{map_dict=}")
+        print(f"{location=}")
+                
         
             
     # @answer(1234)
