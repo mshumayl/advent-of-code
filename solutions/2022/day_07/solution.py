@@ -11,7 +11,7 @@ class Solution(StrSplitSolution):
     # @answer(1234)
     def part_1(self) -> int:
         location = []
-        map_dict = defaultdict(int)
+        dir_dict = defaultdict(int)
 
         for line in self.input:
             command = line.split(" ")
@@ -34,15 +34,21 @@ class Solution(StrSplitSolution):
                 
                 if size > 0:
                     for i in location: # iterate over all directories and sum
-                        map_dict[i] += size 
-                        print(f"Added {size=} to dir {i} (total={map_dict[i]})")
-                        print(map_dict.items())
+                        dir_dict[i] += size 
+                        print(f"Added {size=} to dir {i} (total={dir_dict[i]})")
+                        # print(dir_dict.items())
             print(f"{location=}")
             
-        print(f"{map_dict=}")
+        print(f"{dir_dict=}")
         print(f"{location=}")
-                
         
+        sum = 0 
+
+        for key, value in dir_dict.items():
+            if value<100000:
+                sum+=value
+        
+        print(sum)
             
     # @answer(1234)
     def part_2(self) -> int:
