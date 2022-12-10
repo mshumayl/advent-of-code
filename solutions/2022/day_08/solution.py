@@ -80,7 +80,7 @@ class Solution(StrSplitSolution):
     def part_2(self) -> int:
 
         matrix = []
-        visible_trees = defaultdict(lambda: 1)
+        visible_trees = defaultdict(list)
         
         # Load into matrix
         for i in self.input:
@@ -101,83 +101,72 @@ class Solution(StrSplitSolution):
                     # Current tree
                     # print(f"\nCurrent tree: {matrix[rix][cix]}")
 
-                    right_diff = False
-                    left_diff = False
-
-                    # From left
-                    # print(f"Left: {matrix[rix][:cix]}")
-
                     current_tree = matrix[rix][cix]
 
+                    score_left=0
+                    score_right=0
+
                     left_trees = matrix[rix][:cix]
+                    left_trees.reverse()
                     right_trees = matrix[rix][cix+1:]
 
-                    print(current_tree)
-                    print(left_trees)
-                    print(right_trees)
-                    print()
+                    # print(f"{current_tree=}")
+                    # print(f"{left_trees=}")
+                    # print(f"{right_trees=}")
 
-                    if len(left_trees)==0: # trees on edge
-                        dist_left = 1
+                    if len(left_trees)>0:
+                        for lidx, ltr in enumerate(left_trees):
+                                if ltr>=current_tree and not (lidx+1==len(left_trees)):
+                                    score_left = lidx+1
+                                    break
+                                else:
+                                    score_left = len(left_trees)
                     else:
-                        dist_left = len(left_trees)
-
-                    if len(right_trees)==0: # trees on edge
-                        dist_right = 1
-                    else:
-                        dist_right = len(right_trees)
-
-
-                    try:
-                        if current_tree<max(left_trees):
-                            idx_max = left_trees.index(max(left_trees))
-                            score_left = len(left_trees[idx_max:])
-                        else: # if no trees blocking
-                            score_left = len(left_trees)
-                    except ValueError: # array length 0, default to 0
                         score_left = 0
 
-                    
-                    try:
-                        if current_tree<max(right_trees):
-                            idx_max = right_trees.index(max(right_trees))
-                            score_right = len(right_trees[:idx_max-1])
-                        else: # if no trees blocking
-                            score_right = len(right_trees)
-                    except ValueError: # array length 0, default to 0
+                    if len(right_trees)>0:
+                        for ridx, rtr in enumerate(right_trees):
+                                if rtr>=current_tree and not (ridx+1==len(left_trees)): 
+                                    score_right = ridx+1
+                                    break
+                                else:
+                                    score_right = len(right_trees)
+                    else:
                         score_right = 0
 
-                    
-
                     if transposed:
-                        visible_trees[f"{rix}{cix}"] *= score_right*score_left
-                        print(f"{rix}, {cix}")
-                        print(f"{score_right=}")
-                        print(f"{score_left=}\n")
+                        visible_trees[f"{rix},{cix}"].append(score_right*score_left)
+                        # print(f"{rix}, {cix}")
+                        # print(f"{score_left=}")
+                        # print(f"{score_right=}\n")
                     else:
-                        visible_trees[f"{cix}{rix}"] *= score_right*score_left
-                        print(f"{cix}, {rix}")
-                        print(f"{score_right=}")
-                        print(f"{score_left=}\n")
+                        visible_trees[f"{cix},{rix}"].append(score_right*score_left)
+                        # print(f"{cix}, {rix}")
+                        # print(f"{score_left=}")
+                        # print(f"{score_right=}\n")
         
         get_farthest_taller_tree(matrix, False)
         get_farthest_taller_tree(transposed_matrix, True)
         
         # print(visible_trees)
 
-        tried_ans = [998, 0]
+        tried_ans = [10160640, 998, 0, 235200] #235200 too low
 
-        ans = max(visible_trees.values())
-        
+        max_tree = max(visible_trees, key=visible_trees.get)
+        max_values = max(visible_trees.values())
+
+        print(max_tree)
+        ans = max_values[0]*max_values[1]
+
+        # print(ans)
+
         if ans in tried_ans:
             print(f"Already tried {ans}. Tried values -> {tried_ans}")
         else:
             print(ans)
 
-        # print(len(visible_trees))
-
-        print(visible_trees)
-        assert ans==6
+        # print(visible_trees)
+        # assert ans==8
 
     # @answer((1234, 4567))
     # def solve(self) -> Tuple[int, int]:
