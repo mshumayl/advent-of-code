@@ -136,14 +136,14 @@ class Solution(StrSplitSolution):
 
                     if transposed:
                         visible_trees[f"{rix},{cix}"].append(score_right*score_left)
-                        # print(f"{rix}, {cix}")
-                        # print(f"{score_left=}")
-                        # print(f"{score_right=}\n")
+                        print(f"{rix}, {cix}")
+                        print(f"{score_left=}")
+                        print(f"{score_right=}\n")
                     else:
                         visible_trees[f"{cix},{rix}"].append(score_right*score_left)
-                        # print(f"{cix}, {rix}")
-                        # print(f"{score_left=}")
-                        # print(f"{score_right=}\n")
+                        print(f"{cix}, {rix}")
+                        print(f"{score_left=}")
+                        print(f"{score_right=}\n")
         
         get_farthest_taller_tree(matrix, False)
         get_farthest_taller_tree(transposed_matrix, True)
