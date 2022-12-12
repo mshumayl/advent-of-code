@@ -8,7 +8,7 @@ class Solution(StrSplitSolution):
     _year = 2022
     _day = 8
 
-    # @answer(1870)
+    @answer(1870)
     def part_1(self) -> int:
         matrix = []
         visible_trees = set()
@@ -76,8 +76,7 @@ class Solution(StrSplitSolution):
 
         return ans
 
-    # tried_ans = [10160640, 998, 0, 235200, 262395, 201600] #235200 too low
-    # @answer(1234)
+    @answer(517440)
     def part_2(self) -> int:
 
         trees_dict = defaultdict(dict)
