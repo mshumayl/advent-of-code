@@ -109,14 +109,14 @@ class Solution(StrSplitSolution):
                     try:
                         for ridx, rtree in enumerate(right_trees):
                             if rtree>=tree:
-                                right_score = ridx=1
+                                right_score = ridx+1
                                 break
                     except UnboundLocalError:
                         pass
 
                     if transposed:
-                        trees_dict[f"{rowidx},{idx}"]["top"] = int(left_score)
                         trees_dict[f"{rowidx},{idx}"]["bottom"] = int(left_score)
+                        trees_dict[f"{rowidx},{idx}"]["top"] = int(right_score)
                     else:
                         trees_dict[f"{idx},{rowidx}"]["left"] = int(left_score)
                         trees_dict[f"{idx},{rowidx}"]["right"] = int(right_score)
@@ -143,19 +143,10 @@ class Solution(StrSplitSolution):
         for tree in trees_dict:
             tree_score = trees_dict[tree]["left"]*trees_dict[tree]["right"]*trees_dict[tree]["top"]*trees_dict[tree]["bottom"]
             all_scores.append(tree_score)
-            print(tree)
-
-
-        print(trees_dict.keys())
-        print(trees_dict['0,1'])
-        # assert trees_dict['0,0']["right"] == 2
-        # assert trees_dict['0,0']["left"] == 0
-        # assert trees_dict['0,0']["top"] == 
-        # assert trees_dict['0,0']["bottom"] == 
-
+            # print(tree)
 
         print(max(all_scores))
-        print(all_scores)
+        # print(all_scores)
 
     # @answer((1234, 4567))
     # def solve(self) -> Tuple[int, int]:
