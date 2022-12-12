@@ -75,98 +75,87 @@ class Solution(StrSplitSolution):
         # print(f"{visible_trees}")
 
         return ans
-        
+
+    # tried_ans = [10160640, 998, 0, 235200, 262395, 201600] #235200 too low
     # @answer(1234)
     def part_2(self) -> int:
 
+        trees_dict = defaultdict(dict)
+
+        def get_tree_score(trees_input, transposed: bool=False):
+            for rowidx, row in enumerate(trees_input):
+                for idx, tree in enumerate(row): # exclusive at stop index
+                    if len(row[:idx])==0:
+                        left_score = 0
+                    else:
+                        left_trees = row[:idx]
+                        left_trees.reverse() # because need to check from the tree that is nearest to the current tree
+                        left_score = len(left_trees)
+                    
+                    if len(row[idx:])==len(row): # inclusive at start index
+                        right_score = 0
+                    else:
+                        right_trees = row[idx+1:] # inclusive at start index
+                        right_score = len(right_trees)
+
+                    try:
+                        for lidx, ltree in enumerate(left_trees):
+                            if ltree>=tree:
+                                left_score = lidx+1
+                                break
+                    except UnboundLocalError:
+                        pass
+
+                    try:
+                        for ridx, rtree in enumerate(right_trees):
+                            if rtree>=tree:
+                                right_score = ridx=1
+                                break
+                    except UnboundLocalError:
+                        pass
+
+                    if transposed:
+                        trees_dict[f"{rowidx},{idx}"]["top"] = int(left_score)
+                        trees_dict[f"{rowidx},{idx}"]["bottom"] = int(left_score)
+                    else:
+                        trees_dict[f"{idx},{rowidx}"]["left"] = int(left_score)
+                        trees_dict[f"{idx},{rowidx}"]["right"] = int(right_score)
+
         matrix = []
-        visible_trees = defaultdict(list)
-        
-        # Load into matrix
+
         for i in self.input:
             tree = [int(x) for x in i]
             matrix.append(tree)
 
-        # Transpose the matrix
-        transposed_matrix = []
+        # tranpose input
+        transposed_input = []
         for col in range(len(matrix[0])):
             cols = []
             for rw in range(len(matrix)):
                 cols.append(matrix[rw][col])
-            transposed_matrix.append(cols)
+            transposed_input.append(cols)
 
-        def get_farthest_taller_tree(matrix, transposed: bool):
-            for rix, row in enumerate(matrix):
-                for cix, column in enumerate(row):
-                    # Current tree
-                    # print(f"\nCurrent tree: {matrix[rix][cix]}")
+        get_tree_score(transposed_input, transposed=True)
+        get_tree_score(matrix)
 
-                    current_tree = matrix[rix][cix]
+        all_scores = []
 
-                    score_left=0
-                    score_right=0
+        for tree in trees_dict:
+            tree_score = trees_dict[tree]["left"]*trees_dict[tree]["right"]*trees_dict[tree]["top"]*trees_dict[tree]["bottom"]
+            all_scores.append(tree_score)
+            print(tree)
 
-                    left_trees = matrix[rix][:cix]
-                    left_trees.reverse()
-                    right_trees = matrix[rix][cix+1:]
 
-                    # print(f"{current_tree=}")
-                    # print(f"{left_trees=}")
-                    # print(f"{right_trees=}")
+        print(trees_dict.keys())
+        print(trees_dict['0,1'])
+        # assert trees_dict['0,0']["right"] == 2
+        # assert trees_dict['0,0']["left"] == 0
+        # assert trees_dict['0,0']["top"] == 
+        # assert trees_dict['0,0']["bottom"] == 
 
-                    if len(left_trees)>0:
-                        for lidx, ltr in enumerate(left_trees):
-                                if ltr>=current_tree and not (lidx+1==len(left_trees)):
-                                    score_left = lidx+1
-                                    break
-                                else:
-                                    score_left = len(left_trees)
-                    else:
-                        score_left = 0
 
-                    if len(right_trees)>0:
-                        for ridx, rtr in enumerate(right_trees):
-                                if rtr>=current_tree and not (ridx+1==len(left_trees)): 
-                                    score_right = ridx+1
-                                    break
-                                else:
-                                    score_right = len(right_trees)
-                    else:
-                        score_right = 0
-
-                    if transposed:
-                        visible_trees[f"{rix},{cix}"].append(score_right*score_left)
-                        print(f"{rix}, {cix}")
-                        print(f"{score_left=}")
-                        print(f"{score_right=}\n")
-                    else:
-                        visible_trees[f"{cix},{rix}"].append(score_right*score_left)
-                        print(f"{cix}, {rix}")
-                        print(f"{score_left=}")
-                        print(f"{score_right=}\n")
-        
-        get_farthest_taller_tree(matrix, False)
-        get_farthest_taller_tree(transposed_matrix, True)
-        
-        # print(visible_trees)
-
-        tried_ans = [10160640, 998, 0, 235200] #235200 too low
-
-        max_tree = max(visible_trees, key=visible_trees.get)
-        max_values = max(visible_trees.values())
-
-        print(max_tree)
-        ans = max_values[0]*max_values[1]
-
-        # print(ans)
-
-        if ans in tried_ans:
-            print(f"Already tried {ans}. Tried values -> {tried_ans}")
-        else:
-            print(ans)
-
-        # print(visible_trees)
-        # assert ans==8
+        print(max(all_scores))
+        print(all_scores)
 
     # @answer((1234, 4567))
     # def solve(self) -> Tuple[int, int]:
