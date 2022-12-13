@@ -9,7 +9,7 @@ class Solution(StrSplitSolution):
     _year = 2022
     _day = 9
 
-    # @answer(1234)
+    # @answer(6376)
     def part_1(self) -> int:
 
         print(sys.version)
@@ -25,11 +25,11 @@ class Solution(StrSplitSolution):
         tailx = 1
         taily = 1
         
-        def get_movement():
 
+        def get_movement():
             distx = headx-tailx
             disty = heady-taily
-
+        
             try: 
                 x_hat = distx/abs(distx) 
             except ZeroDivisionError:
@@ -69,20 +69,32 @@ class Solution(StrSplitSolution):
         def move_tail(movement_vector: tuple):
             nonlocal tailx, taily, tail_footprint
             
+            print(f"\nMoving tail from ({tailx},{taily}) with vector ({movement_vector[0]},{movement_vector[1]})")
             tailx += movement_vector[0]
             taily += movement_vector[1]
-            
+        
+            print(f"Update tail coords: ({tailx},{taily})")            
             tail_footprint.add(f"{tailx},{taily}")
         
             
         for i in self.input:
+            print()
+            print()
             print(i)
             
             head_dir, head_dist = i.split(" ")[0], int(i.split(" ")[1])
             
-            move_head(head_dir, head_dist)
-            movement = get_movement()
-            move_tail(movement)
+            for step in range(head_dist):
+                move_head(head_dir, 1)
+                
+                abs_distx = abs(headx-tailx)
+                abs_disty = abs(heady-taily)
+                
+                if (abs_distx>1 or abs_disty>1):
+                    movement = get_movement()
+                    move_tail(movement)
+                else:
+                    continue
 
         # print(head_footprint)
         print(tail_footprint)
