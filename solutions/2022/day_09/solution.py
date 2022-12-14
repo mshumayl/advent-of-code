@@ -9,7 +9,7 @@ class Solution(StrSplitSolution):
     _year = 2022
     _day = 9
 
-    # @answer(6376)
+    @answer(6376)
     def part_1(self) -> int:
 
         print(sys.version)
@@ -96,11 +96,10 @@ class Solution(StrSplitSolution):
 
         # print(head_footprint)
         # print(tail_footprint)
-        # print(len(tail_footprint))
-        
-        pass
+        return len(tail_footprint)
 
-    # @answer(1234)
+
+    @answer(2607)
     def part_2(self) -> int:
         
         head_footprint = set()  
@@ -108,7 +107,6 @@ class Solution(StrSplitSolution):
 
         tail_footprint.add("0,0")
 
-        
         all_coords = []
         
         for i in range(10):
@@ -182,7 +180,7 @@ class Solution(StrSplitSolution):
                     
                     move_end(headx, heady, tailx, taily, step)
             
-        print(len(tail_footprint))
+        return len(tail_footprint)
 
     # @answer((1234, 4567))
     # def solve(self) -> Tuple[int, int]:
