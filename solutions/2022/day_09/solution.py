@@ -106,8 +106,7 @@ class Solution(StrSplitSolution):
         head_footprint = set()  
         tail_footprint = set()
 
-        head_footprint.add("1,1")
-        tail_footprint.add("1,1")
+        tail_footprint.add("0,0")
 
         
         all_coords = []
@@ -183,13 +182,7 @@ class Solution(StrSplitSolution):
                     
                     move_end(headx, heady, tailx, taily, step)
             
-        
         print(len(tail_footprint))
- 
-            
-            
-        
-        pass
 
     # @answer((1234, 4567))
     # def solve(self) -> Tuple[int, int]:
