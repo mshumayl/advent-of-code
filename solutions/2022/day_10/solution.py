@@ -7,37 +7,45 @@ class Solution(StrSplitSolution):
     _year = 2022
     _day = 10
 
-    # @answer(1234)
+    # @answer(13180)
     def part_1(self) -> int:
-        
-        cumul_x = 0
-        
-        x_history = []
+        cumul_x = 1
+        add_x = 0
+        cycle = 0
         signal_history = []
         
-        for idx, i in enumerate(self.input):
-            if i.startswith("noop"):
-                x_history.append(cumul_x) # first cycle here
+        def update_if_interesting():
+            nonlocal cumul_x, cycle, add_x
+            interesting = [20, 60, 100, 140, 180, 220]
             
-            elif i.startswith("addx"):
-                add_x = int(i.split(" ")[1])
+            if cycle in interesting:
+                prev_x = cumul_x-add_x # to exclude non-finished cycles
                 
-                x_history.append(cumul_x) # first cycle here
-                
-                cumul_x += add_x
-                x_history.append(cumul_x) # second cycle here
-                
-                
-        for jdx, j in enumerate(x_history):
-            if jdx in [20, 60, 100, 140, 180, 220]:
-                cyc = jdx
-                current_x = int(x_history[jdx])
-                signal_strength = current_x*cyc
-                signal_history.append(signal_strength)
-                print(f"{cyc}*{current_x}")
+                print(f"{cycle}*{prev_x}={cycle*(prev_x)}")
+                signal_history.append(cycle*prev_x)
+        
+        for idx, i in enumerate(self.input):
+            add_x = 0
+            if i.startswith("noop"):
+                cycle += 1
+                update_if_interesting()    
 
-        print(sum(signal_history))        
-        print(len(x_history)+1)
+            elif i.startswith("addx"):
+                cycle += 1
+                update_if_interesting()
+                
+                add_x = int(i.split(" ")[1])
+                cumul_x += add_x
+
+                cycle+=1
+                update_if_interesting()
+
+            else:
+                raise ValueError("Invalid input.")
+                
+        return sum(signal_history)
+            
+                
 
     # @answer(1234)
     def part_2(self) -> int:
