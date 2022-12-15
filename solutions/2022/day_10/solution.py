@@ -49,6 +49,51 @@ class Solution(StrSplitSolution):
 
     # @answer(1234)
     def part_2(self) -> int:
+        cumul_x = 1
+        add_x = 0
+        cycle = 0
+        signal_history = []
+        display = ["." for x in range(241)]
+        newline = [x for x in range(241) if x%40==0]
+        
+        def update_if_crt_on():
+            nonlocal cumul_x, cycle, add_x
+            sprite_size = 3
+
+
+            curr_x = cumul_x+add_x # to exclude non-finished cycles
+
+            if cycle in [curr_x, curr_x+1, curr_x-1]:
+                print(f"OVERLAP: {cycle=}, {curr_x=}, {curr_x+1=}, {curr_x-1=}")
+                
+                if len(display)>=2:
+                    display[curr_x-1] = "#"
+                    display[curr_x] = "#"
+                    display[curr_x+1] = "#"
+                                    
+        
+        for idx, i in enumerate(self.input):
+            add_x = 0
+            if i.startswith("noop"):
+                cycle += 1
+                update_if_crt_on()    
+
+            elif i.startswith("addx"):
+                cycle += 1
+                update_if_crt_on()
+                
+                add_x = int(i.split(" ")[1])
+                cumul_x += add_x
+
+                cycle+=1
+                update_if_crt_on()
+
+            else:
+                raise ValueError("Invalid input.")
+
+        display_processed = ["".join(display[i:i+40]) for i in range(0, 241, 40)]
+
+        print(display_processed)
         pass
 
     # @answer((1234, 4567))
