@@ -49,49 +49,48 @@ class Solution(StrSplitSolution):
 
     # @answer(1234)
     def part_2(self) -> int:
-        cumul_x = 1
-        add_x = 0
-        cycle = 0
-        signal_history = []
-        display = ["." for x in range(241)]
         
-        def update_on_overlap():
-            nonlocal cumul_x, cycle, add_x
-            sprite_size = 3
-
-            curr_x = cumul_x+add_x # to exclude non-finished cycles
-
-            if cycle in [curr_x, curr_x+1, curr_x-1]:
-                print(f"OVERLAP: {cycle=}, {curr_x=}, {curr_x+1=}, {curr_x-1=}")
+        register_x = 1
+        add_x = 0
+        current_x = 0
+        cycle = 0
+        signal_list = ["" for _ in range(241)]
+        
+        def update_if_overlap(cyc, x):
+            if cyc in [x, x+1, x-1]:
+                signal_list[cyc] = "#"
+            else:
+                signal_list[cyc] = "."            
                 
-                if len(display)>=2:
-                    display[curr_x-1] = "#"
-                    display[curr_x] = "#"
-                    display[curr_x+1] = "#"
-                                    
         
         for idx, i in enumerate(self.input):
             add_x = 0
             if i.startswith("noop"):
                 cycle += 1
-                update_on_overlap()    
+                # update_if_overlap(cycle, register_x)
+                signal_list[cycle] = str(current_x)    
 
             elif i.startswith("addx"):
                 cycle += 1
-                update_on_overlap()
-                
+                # update_if_overlap(cycle, register_x)
+                signal_list[cycle] = str(current_x)    
+
                 add_x = int(i.split(" ")[1])
-                cumul_x += add_x
+                current_x += add_x
 
                 cycle+=1
-                update_on_overlap()
+                # update_if_overlap(cycle, register_x)
+                signal_list[cycle] = str(current_x)    
+
 
             else:
                 raise ValueError("Invalid input.")
-
-        display_processed = ["".join(display[i:i+40]) for i in range(0, 241, 40)]
-
-        print(display)
+                
+        display = ["".join(signal_list[i:i+40]) for i in range(0, 241, 40)]
+    
+        return display
+            
+                
         pass
 
     # @answer((1234, 4567))
