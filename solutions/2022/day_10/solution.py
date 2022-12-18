@@ -49,60 +49,48 @@ class Solution(StrSplitSolution):
 
     # @answer(1234)
     def part_2(self) -> int:
-        
-        register_x = 1
-        add_x = 0
-        current_x = 0
+        x_register = 1
         cycle = 0
-        signal_list = ["" for _ in range(241)]
+        raw_display = ["." for _ in range(241)]
         
-        def update_if_overlap(cyc, x):
-            if cyc in [x, x+1, x-1]:
-                signal_list[cyc] = "#"
+        def draw_crt():
+            nonlocal x_register, cycle, addx
+            
+            if cycle in [x_register-1, x_register, x_register+1]:
+                print(f"Draw pixel # at position {cycle}.")
+                raw_display[cycle] = "#"
             else:
-                signal_list[cyc] = "."            
-                
+                print(f"Draw pixel . at position {cycle}.")
 
+        
         for idx, i in enumerate(self.input):
-            add_x = 0
+            try:
+                addx = int(i.split(" ")[1])
+            except IndexError:
+                pass
+
             if i.startswith("noop"):
+                draw_crt()    
                 cycle += 1
-                # update_if_overlap(cycle, register_x)
-                signal_list[cycle] = str(current_x)    
+                print("Finish executing noop.")
 
             elif i.startswith("addx"):
-                cycle += 1
-                # update_if_overlap(cycle, register_x)
-                signal_list[cycle] = str(current_x)    
+                print(f"Begin executing addx {addx}")
+                draw_crt()
+                cycle+=1
+                print(f"At {cycle=}. Current {x_register=}.")
 
-                add_x = int(i.split(" ")[1])
-                current_x += add_x
+                draw_crt()
+                x_register += addx
+                print(f"Added {addx} at {cycle=}. Current {x_register=}.")
 
                 cycle+=1
-                # update_if_overlap(cycle, register_x)
-                signal_list[cycle] = str(current_x)    
 
             else:
                 raise ValueError("Invalid input.")
-
-
-        for idx, sig in enumerate(signal_list):
-            
-            try:
-                x_reg = int(sig)
-            
-                if idx in [x_reg-1, x_reg, x_reg+1]:
-                    print(f"OVERLAP - {idx}=={x_reg}")
-            except ValueError:
-                pass
-
-                
-        # display = ["".join(signal_list[i:i+40]) for i in range(0, 241, 40)]
-    
-        return signal_list
+        return raw_display
             
                 
-        pass
 
     # @answer((1234, 4567))
     # def solve(self) -> Tuple[int, int]:
