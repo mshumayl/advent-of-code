@@ -62,7 +62,7 @@ class Solution(StrSplitSolution):
             else:
                 signal_list[cyc] = "."            
                 
-        
+
         for idx, i in enumerate(self.input):
             add_x = 0
             if i.startswith("noop"):
@@ -82,13 +82,24 @@ class Solution(StrSplitSolution):
                 # update_if_overlap(cycle, register_x)
                 signal_list[cycle] = str(current_x)    
 
-
             else:
                 raise ValueError("Invalid input.")
+
+
+        for idx, sig in enumerate(signal_list):
+            
+            try:
+                x_reg = int(sig)
+            
+                if idx in [x_reg-1, x_reg, x_reg+1]:
+                    print(f"OVERLAP - {idx}=={x_reg}")
+            except ValueError:
+                pass
+
                 
-        display = ["".join(signal_list[i:i+40]) for i in range(0, 241, 40)]
+        # display = ["".join(signal_list[i:i+40]) for i in range(0, 241, 40)]
     
-        return display
+        return signal_list
             
                 
         pass
